@@ -1,4 +1,4 @@
-const BASE = "https://localhost:8000";
+const BASE = process.env.REACT_APP_API_URL || "https://localhost:8000";
 
 export async function fetchConversations() {
     const res=await fetch(`${BASE}/conversations`);
