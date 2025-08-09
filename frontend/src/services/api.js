@@ -1,8 +1,14 @@
 const BASE = process.env.REACT_APP_API_URL || "https://localhost:8000";
 
 export async function fetchConversations() {
-    const res=await fetch(`${BASE}/conversations`);
-    return res.json();
+    try {
+        const res = await fetch(`${BASE}/conversations`);
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        return await res.json();
+    } catch (err) {
+        console.error('Failed to fetch conversations:', err);
+        return [];
+    }
 }
 
 export async function fetchMessages(wa_id) {
