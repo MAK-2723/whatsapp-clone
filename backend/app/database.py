@@ -3,7 +3,9 @@ from os import getenv
 from dotenv import load_dotenv
 
 load_dotenv()
-MONGO_URI=getenv(MONGO_URI)
+
+MONGO_URI=getenv("MONGO_URI")
 client=AsyncIOMotorClient(MONGO_URI)
 db=client.whatsapp
+
 messages=db.processed_messages
