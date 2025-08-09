@@ -31,11 +31,12 @@ export default function App() {
     }, []);
 
     return (
-        <div className="felx h-screen bg-white text-gray-900 overflow-hidden">
+        <div className="flex h-screen bg-white text-gray-900 overflow-hidden">
             <ChatList chats={conversations} onSelect={setActiveChat} />
             {activeChat && <ChatWindow wa_id={activeChat}/>}
         </div>
     );
 
 }
+
 
