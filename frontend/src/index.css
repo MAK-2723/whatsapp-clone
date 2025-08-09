@@ -9,7 +9,7 @@ html, body {
 }
 
 .bg-chat-pattern {
-    background-image: url('/whatsapp-bg.png');
+    background-image: url('./assets/images/whatsapp-bg.png');
     background-size: cover;
     background-repeat: repeat;
     background-position: center;
@@ -22,4 +22,5 @@ html, body {
 ::-webkit-scrollbar-thumb{
     background-color: rgba(0,0,0,0.2);
     border-radius: 3px;
+
 }
