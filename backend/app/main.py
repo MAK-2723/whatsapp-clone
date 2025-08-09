@@ -3,13 +3,22 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError, HTTPException
 from app.middleware import http_exception_handler, validation_exception_handler
 from app import database, crud, websocket
+from dotenv import load_dotenv
+import os
 import uvicorn
 
+load_dotenv()
+
+FRONTEND_URL=os.getenv("FRONTEND_URL") #set on Render
+origins="http://localhost:8000"
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
+    
 app=FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
