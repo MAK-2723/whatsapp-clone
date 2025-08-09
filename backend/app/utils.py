@@ -10,7 +10,7 @@ def parse_message_payload(payload: dict) -> list:
                 "wa_id": msg.get("from"),
                 "name": contact.get("profile", {}).get("name", "Unknown"),
                 "text": msg.get("text", {}).get("body", ""),
-                "timestamp": msg.get("timestamp"),
+                "timestamp": format_timestamp(msg.get("timestamp")),
                 "status": "sent",
                 "meta_msg_id": msg.get("id")
             })
@@ -32,4 +32,5 @@ def format_timestamp(ts: str) -> str:
     try:
         return datetime.utcfromtimestamp(int(ts)).isoformat()
     except:
+
         return ts  # fallback if already formatted
