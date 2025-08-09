@@ -3,8 +3,6 @@ import ChatList from './components/ChatList';
 import ChatWindow from './components/ChatWindow';
 import { fetchConversations } from './services/api';
 
-const socket=io("http://localhost:8000");
-
 export default function App() {
     const [conversations, setConversations]=useState([]);
     const [activeChat, setActiveChat]=useState(null);
@@ -40,3 +38,4 @@ export default function App() {
     );
 
 }
+
