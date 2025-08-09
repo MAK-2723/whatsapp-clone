@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import ChatList from './components/ChatList';
 import ChatWindow from './components/ChatWindow';
 import { fetchConversations } from './services/api';
-import { io } from 'socket.io-client';
 
 const socket=io("http://localhost:8000");
 
@@ -16,9 +15,21 @@ export default function App() {
     };
     useEffect(() => {
         loadData();
-        socket.on("connect", () => console.log("WebSocket connected"));
-        socket.on("message", () => loadData());
-        return () => socket.disconnect();
+        const apiBASE= process.env.REACT_APP_API_URL || "http://localhost:8000";
+        const urlObj= new URL(apiBASE);
+        const wsProtocol= urlObj.protocol === "https:" ? "wss:" : "ws:";
+        const wsUrl= `${wsProtocol}//${urlObj.host}/ws`;
+        
+        const ws= new WebSocket(wsUrl);
+
+        ws.onopen= () => console.log("WebSocket connected");
+        ws.onmessage= (event) => {
+            if (event.data === "new_data") loadData();
+        };
+        ws.onerror= (err) => console.error("WebSocket error",err);
+        return () => {
+            ws.close();
+        };
     }, []);
 
     return (
@@ -27,4 +38,5 @@ export default function App() {
             {activeChat && <ChatWindow wa_id={activeChat}/>}
         </div>
     );
+
 }
