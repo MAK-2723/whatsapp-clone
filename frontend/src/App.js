@@ -36,9 +36,10 @@ export default function App() {
             {activeChat ? (
                 <ChatWindow wa_id={activeChat}/>
             ) : (
-                <div className="flex-1 flex items-center justify-center text-gray-500">Select a chat to start messaging</div>
+                <div className="flex-1 flex items-center justify-center text-gray-500 bg-chat-pattern">Select a chat to start messaging</div>
             )}
         </div>
     );
 
 }
+
