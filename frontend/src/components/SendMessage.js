@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { sendMessage } from '../services/api';
 
-export default function sendMessage({wa_id, reload}) {
+export default function SendMessageForm({wa_id, reload}) {
     const [text, setText] = useState('');
 
     const handleSubmit = async (e) => {
@@ -22,4 +22,5 @@ export default function sendMessage({wa_id, reload}) {
             <button className="px-4 py-4 bg-green-500 hover:bg-green-600 text-white rounded-full">Send</button>
         </form>
     );
+
 }
