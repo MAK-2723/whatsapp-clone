@@ -1,7 +1,7 @@
 import React, {useEffect, useState } from 'react';
 import { fetchMessages } from '../services/api';
 import MessageBubble from "./MessageBubble";
-import SendMessage from "./SendMessage";
+import SendMessageForm from "./SendMessage";
 
 export default function ChatWindow({wa_id}) {
     const [messages, setMessages]= useState([]);
@@ -19,7 +19,8 @@ export default function ChatWindow({wa_id}) {
             <div className="flex-1 p-4 overflow-y-auto space-y-3">
                 {messages.map((msg,index)=> <MessageBubble key={index} message={msg}/>)}
             </div>
-            <SendMessage wa_id={wa_id} reload={() => fetchMessages(wa_id).then(setMessages)}/>
+            <SendMessageForm wa_id={wa_id} reload={() => fetchMessages(wa_id).then(setMessages)}/>
         </div>
     );
+
 }
