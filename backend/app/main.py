@@ -9,8 +9,8 @@ import uvicorn
 
 load_dotenv()
 
-FRONTEND_URL=os.getenv("FRONTEND_URL","http://localhost:8000") #set on Render
-origins=[FRONTEND_URL]
+FRONTEND_URL=os.getenv("FRONTEND_URL") #set on Render
+origins=[FRONTEND_URL,"http://localhost:8000"]
     
 app=FastAPI()
 
