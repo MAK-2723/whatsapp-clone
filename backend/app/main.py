@@ -42,7 +42,7 @@ async def receive_payload(request: Request):
 
 @app.get("/messages/{wa_id}")
 async def get_messages(wa_id: str):
-    logger.inso("Get /messages %s",wa_id)
+    logger.info("Get /messages %s",wa_id)
     return await crud.get_messages_by_user(wa_id)
 
 @app.get("/conversations")
