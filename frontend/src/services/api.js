@@ -11,8 +11,8 @@ export async function fetchConversations() {
     }
 }
 
-export async function fetchMessages(wa_id) {
-    const res=await fetch(`${BASE}/messages/${wa_id}`);
+export async function fetchMessages(conversation_id) {
+    const res=await fetch(`${BASE}/messages/${conversation_id}`);
     return res.json();
 }
 
