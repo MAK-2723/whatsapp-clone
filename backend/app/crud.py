@@ -27,7 +27,7 @@ async def process_payload(payload):
         logger.error("Error in process_payload: %s", e)
         raise
 
-async def get_messages_by_user(wa_id):
+async def get_messages_by_user(conversation_id):
     try:
         # Split the two numbers from the conversation_id
         ids = conversation_id.split("_")
@@ -80,6 +80,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
