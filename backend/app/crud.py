@@ -29,7 +29,7 @@ async def process_payload(payload):
 
 async def get_messages_by_user(wa_id):
     try:
-        return await messages.find({"wa_id":wa_id}).to_list(100)
+        return await messages.find({"wa_id": wa_id},{"_id": 0}).sort("timestamp", 1).to_list(100)
     except Exception as e:
         logger.error("Error fetching messages: %s", e)
         return []
@@ -54,4 +54,5 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
