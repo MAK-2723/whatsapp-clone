@@ -37,16 +37,24 @@ async def get_messages_by_user(wa_id):
 async def get_all_conversations():
     try:
         pipeline=[
-            {"$group":{"_id":"$wa_id","last_msg":{"$last":"$text"}, "timestamp": {"$last":"$timestamp"}}},
-            {"$sort":{"timestamp":-1}}
-        ]
-        pipeline = [
-            {"$group": {
-                "_id": "$conversation_id",
-                "last_msg": {"$last": "$text"},
-                "timestamp": {"$last": "$timestamp"},
-                "participant": {"$last": "$name"}
-            }},
+             {"$addFields": {
+                 "conversation_id": {
+                     "$cond": {
+                         "if": {"$lt": ["$wa_id", "$to_id"]}, 
+                         "then": {"$concat": ["$wa_id", "_", "$to_id"]}, 
+                         "else": {"$concat": ["$to_id", "_", "$wa_id"]}}
+                    }
+                }
+            },
+            {
+                "$group": {
+                    "_id": "$conversation_id",
+                    "last_msg": {"$last": "$text"},
+                    "timestamp": {"$last": "$timestamp"},
+                    "wa_id": {"$last": "$wa_id"},
+                    "name": {"$last": "$name"}
+                }
+            },
             {"$sort": {"timestamp": -1}}
         ]
         res= await messages.aggregate(pipeline).to_list(100)
@@ -63,6 +71,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
