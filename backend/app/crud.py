@@ -29,7 +29,16 @@ async def process_payload(payload):
 
 async def get_messages_by_user(wa_id):
     try:
-        return await messages.find({"wa_id": wa_id},{"_id": 0}).sort("timestamp", 1).to_list(100)
+        # Split the two numbers from the conversation_id
+        ids = conversation_id.split("_")
+        if len(ids) != 2:
+            return []
+        id1, id2 = ids[0], ids[1]
+        pipeline = [
+            {"$match": {"$or": [{"wa_id": id1, "to_id": id2},{"wa_id": id2, "to_id": id1}]}},
+            {"$sort": {"timestamp": 1}}
+        ]
+        return await messages.aggregate(pipeline).to_list(100)
     except Exception as e:
         logger.error("Error fetching messages: %s", e)
         return []
@@ -71,6 +80,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
