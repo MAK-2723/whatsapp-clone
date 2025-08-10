@@ -31,11 +31,12 @@ export default function ChatWindow({conversation_id}) {
                     );
                 })}
             </div>
-            <SendMessageForm wa_id={wa_id} reload={() => fetchMessages(wa_id).then(setMessages)}/>
+            <SendMessageForm conversation_id={conversation_id} reload={() => fetchMessages(conversation_id).then(setMessages)}/>
         </div>
     );
 
 }
+
 
 
 
