@@ -36,7 +36,7 @@ async def get_messages_by_user(wa_id):
 
 async def get_all_conversations():
     try:
-        pipelines=[
+        pipeline=[
             {"$group":{"_id":"$wa_id","last_msg":{"$last":"$text"}, "timestamp": {"$last":"$timestamp"}}},
             {"$sort":{"timestamp":-1}}
         ]
@@ -54,3 +54,4 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
