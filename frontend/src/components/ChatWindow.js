@@ -26,7 +26,7 @@ export default function ChatWindow({wa_id}) {
                                     {msg.name}
                                 </div>
                             )}
-                            <MessageBubble message={msg} />
+                            <MessageBubble key={index} message={msg} isSender={msg.name === 'You'} />
                         </div>
                     );
                 })}
@@ -36,4 +36,5 @@ export default function ChatWindow({wa_id}) {
     );
 
 }
+
 
