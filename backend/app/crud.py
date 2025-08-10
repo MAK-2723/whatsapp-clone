@@ -29,6 +29,7 @@ async def process_payload(payload):
 
 async def get_messages_by_user(conversation_id):
     try:
+        '''
         # Split the two numbers from the conversation_id
         ids = conversation_id.split("_")
         if len(ids) != 2:
@@ -39,6 +40,9 @@ async def get_messages_by_user(conversation_id):
             {"$sort": {"timestamp": 1}}
         ]
         return await messages.aggregate(pipeline).to_list(100)
+        '''
+        msgs = await messages.find({"conversation_id": conversation_id}).sort("timestamp", 1).to_list(100)
+        return msgs
     except Exception as e:
         logger.error("Error fetching messages: %s", e)
         return []
@@ -46,15 +50,6 @@ async def get_messages_by_user(conversation_id):
 async def get_all_conversations():
     try:
         pipeline=[
-             {"$addFields": {
-                 "conversation_id": {
-                     "$cond": {
-                         "if": {"$lt": ["$wa_id", "$to_id"]}, 
-                         "then": {"$concat": ["$wa_id", "_", "$to_id"]}, 
-                         "else": {"$concat": ["$to_id", "_", "$wa_id"]}}
-                    }
-                }
-            },
             {
                 "$group": {
                     "_id": "$conversation_id",
@@ -80,6 +75,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
