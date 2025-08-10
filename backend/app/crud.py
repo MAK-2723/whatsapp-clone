@@ -67,7 +67,7 @@ async def get_all_conversations():
                 "timestamp": 1,
                 "name": 1,
                 "wa_id": 1
-            }
+            }}
         ]
         res= await messages.aggregate(pipeline).to_list(100)
         return res
@@ -83,6 +83,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
