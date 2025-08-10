@@ -42,6 +42,10 @@ async def get_messages_by_user(conversation_id):
         return await messages.aggregate(pipeline).to_list(100)
         '''
         msgs = await messages.find({"conversation_id": conversation_id}).sort("timestamp", 1).to_list(100)
+        # Convert ObjectId to string for JSON serialization
+        for msg in msgs:
+            if "_id" in msg and isinstance(msg["_id"], ObjectId):
+                msg["_id"] = str(msg["_id"])
         return msgs
     except Exception as e:
         logger.error("Error fetching messages: %s", e)
@@ -83,6 +87,7 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
 
