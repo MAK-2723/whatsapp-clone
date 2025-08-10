@@ -40,10 +40,10 @@ async def receive_payload(request: Request):
         logger.exception("Error processing webhook: %s",e)
         return {"status": "error", "detail": str(e)}        
 
-@app.get("/messages/{wa_id}")
-async def get_messages(wa_id: str):
-    logger.info("Get /messages %s",wa_id)
-    return await crud.get_messages_by_user(wa_id)
+@app.get("/messages/{conversation_id}")
+async def get_messages(conversation_id: str):
+    logger.info("Get /messages %s",conversation_id)
+    return await crud.get_messages_by_user(conversation_id)
 
 @app.get("/conversations")
 async def get_conversations():
