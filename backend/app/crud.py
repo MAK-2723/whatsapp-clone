@@ -40,6 +40,15 @@ async def get_all_conversations():
             {"$group":{"_id":"$wa_id","last_msg":{"$last":"$text"}, "timestamp": {"$last":"$timestamp"}}},
             {"$sort":{"timestamp":-1}}
         ]
+        pipeline = [
+            {"$group": {
+                "_id": "$conversation_id",
+                "last_msg": {"$last": "$text"},
+                "timestamp": {"$last": "$timestamp"},
+                "participant": {"$last": "$name"}
+            }},
+            {"$sort": {"timestamp": -1}}
+        ]
         res= await messages.aggregate(pipeline).to_list(100)
         return res
     except Exception as e:
@@ -54,5 +63,6 @@ async def insert_message(data):
     except Exception as e:
         logger.error("Error inserting message: %s", e)
         raise
+
 
 
