@@ -3,16 +3,16 @@ import { fetchMessages } from '../services/api';
 import MessageBubble from "./MessageBubble";
 import SendMessageForm from "./SendMessage";
 
-export default function ChatWindow({wa_id}) {
+export default function ChatWindow({conversation_id}) {
     const [messages, setMessages]= useState([]);
 
     useEffect(() => {
         async function load() {
-            const data = await fetchMessages(wa_id);
+            const data = await fetchMessages(conversation_id);
             setMessages(data);
         }
         load();
-    }, [wa_id]);
+    }, [conversation_id]);
 
     return (
         <div className="w-2/3 flex flex-col bg-chat-pattern">
@@ -36,5 +36,6 @@ export default function ChatWindow({wa_id}) {
     );
 
 }
+
 
 
