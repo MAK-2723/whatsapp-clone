@@ -1,24 +1,31 @@
 from datetime import datetime
 
+def make_conversation_id(num1, num2):
+    """Create a stable conversation ID for two numbers."""
+    return "_".join(sorted([str(num1), str(num2)]))
+
 def parse_message_payload(payload: dict) -> list:
-    """Extracts messages from a WhatsApp webhook payload."""
+    """Extracts messages from a WhatsApp webhook payload with conversation_id."""
     messages = []
     # Unwrap if 'metaData' key exists
     data = payload.get("metaData", payload)
-    # WhatsApp payload structure
     for entry in data.get("entry", []):
         for change in entry.get("changes", []):
             value = change.get("value", {})
             contacts = value.get("contacts", [{}])
             contact = contacts[0] if contacts else {}
+            business_number = value.get("metadata", {}).get("display_phone_number")
             for msg in value.get("messages", []):
+                from_num = msg.get("from")
+                # Generate conversation ID
+                conversation_id = make_conversation_id(from_num, business_number)
                 messages.append({
-                    "wa_id": msg.get("from"),
+                    "conversation_id": conversation_id,
+                    "wa_id": from_num,
                     "name": contact.get("profile", {}).get("name", "Unknown"),
                     "text": msg.get("text", {}).get("body", ""),
                     "timestamp": format_timestamp(msg.get("timestamp")),
-                    # Determine status dynamically
-                    "status": "sent" if msg.get("from") == value.get("metadata", {}).get("display_phone_number") else "received",
+                    "status": "sent" if from_num == business_number else "received",
                     "meta_msg_id": msg.get("id")
                 })
     return messages
@@ -45,3 +52,4 @@ def format_timestamp(ts: str) -> str:
         return datetime.utcfromtimestamp(int(ts)).isoformat()
     except:
         return ts  # fallback if already formatted
+
