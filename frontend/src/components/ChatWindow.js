@@ -3,7 +3,7 @@ import { fetchMessages } from '../services/api';
 import MessageBubble from "./MessageBubble";
 import SendMessageForm from "./SendMessage";
 
-export default function ChatWindow({conversation_id}) {
+export default function ChatWindow({wa_id}) {
     const [messages, setMessages]= useState([]);
 
     useEffect(() => {
@@ -12,7 +12,7 @@ export default function ChatWindow({conversation_id}) {
             setMessages(data);
         }
         load();
-    }, [conversation_id]);
+    }, [wa_id]);
 
     return (
         <div className="w-2/3 flex flex-col bg-chat-pattern">
@@ -31,11 +31,12 @@ export default function ChatWindow({conversation_id}) {
                     );
                 })}
             </div>
-            <SendMessageForm conversation_id={conversation_id} reload={() => fetchMessages(conversation_id).then(setMessages)}/>
+            <SendMessageForm conversation_id={wa_id} reload={() => fetchMessages(conversation_id).then(setMessages)}/>
         </div>
     );
 
 }
+
 
 
 
