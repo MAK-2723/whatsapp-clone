@@ -34,7 +34,7 @@ export default function App() {
         <div className="flex h-screen bg-white text-gray-900 overflow-hidden">
             <ChatList chats={conversations} onSelect={setActiveChat} />
             {activeChat ? (
-                <ChatWindow wa_id={activeChat}/>
+                <ChatWindow conversation_id={activeChat}/>
             ) : (
                 <div className="flex-1 flex items-center justify-center text-gray-500 bg-chat-pattern">Select a chat to start messaging</div>
             )}
@@ -42,4 +42,5 @@ export default function App() {
     );
 
 }
+
 
