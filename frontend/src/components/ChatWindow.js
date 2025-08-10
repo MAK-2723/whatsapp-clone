@@ -17,10 +17,23 @@ export default function ChatWindow({wa_id}) {
     return (
         <div className="w-2/3 flex flex-col bg-chat-pattern">
             <div className="flex-1 p-4 overflow-y-auto space-y-3">
-                {messages.map((msg,index)=> <MessageBubble key={index} message={msg}/>)}
+                {messages.map((msg, index) => {
+                    const showName = index === 0 || messages[index - 1].wa_id !== msg.wa_id;
+                    return (
+                        <div key={index}>
+                            {showName && (
+                                <div className="text-xs font-bold text-gray-600 mb-1">
+                                    {msg.name}
+                                </div>
+                            )}
+                            <MessageBubble message={msg} />
+                        </div>
+                    );
+                })}
             </div>
             <SendMessageForm wa_id={wa_id} reload={() => fetchMessages(wa_id).then(setMessages)}/>
         </div>
     );
 
 }
+
