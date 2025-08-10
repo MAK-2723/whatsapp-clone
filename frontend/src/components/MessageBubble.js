@@ -1,6 +1,7 @@
 import React from 'react';
 
-export default function MessageBubble({ message, isSender }) {
+export default function MessageBubble({ message }) {
+  const isSender= message.isSender || message.name === "you"; 
   return (
     <div className={`flex ${isSender ? 'justify-end' : 'justify-start'}`}>
       <div className={`max-w-xs md:max-w-sm p-3 rounded-lg shadow
@@ -14,3 +15,4 @@ export default function MessageBubble({ message, isSender }) {
   );
 
 }
+
