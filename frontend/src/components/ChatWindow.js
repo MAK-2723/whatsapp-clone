@@ -8,7 +8,7 @@ export default function ChatWindow({conversation_id}) {
 
     useEffect(() => {
         async function load() {
-            const data = await fetchMessages(conversation_id);
+            const data = await fetchMessages(wa_id);
             setMessages(data);
         }
         load();
@@ -36,6 +36,7 @@ export default function ChatWindow({conversation_id}) {
     );
 
 }
+
 
 
 
